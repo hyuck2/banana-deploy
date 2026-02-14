@@ -1,0 +1,6 @@
+apiVersion: v2
+name: common-chart
+description: A common Helm chart for deploying applications with Deployment, Service, and IngressRoute
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
