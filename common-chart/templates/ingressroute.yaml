@@ -9,13 +9,20 @@ spec:
   entryPoints:
     {{- toYaml .Values.ingress.entryPoints | nindent 4 }}
   routes:
-    - match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/{{ .Values.env }}/{{ .Values.appname }}`)
+    - match: Host(`{{ .Values.ingress.host }}`) && Path(`/{{ .Values.env }}/{{ .Values.appname }}`)
       kind: Rule
+      middlewares:
+        - name: {{ include "common-chart.fullname" . }}-addslash
       services:
         - name: {{ include "common-chart.fullname" . }}
           port: {{ .Values.service.port }}
+    - match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/{{ .Values.env }}/{{ .Values.appname }}/`)
+      kind: Rule
       middlewares:
         - name: {{ include "common-chart.fullname" . }}-stripprefix
+      services:
+        - name: {{ include "common-chart.fullname" . }}
+          port: {{ .Values.service.port }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -25,4 +32,14 @@ spec:
   stripPrefix:
     prefixes:
       - /{{ .Values.env }}/{{ .Values.appname }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "common-chart.fullname" . }}-addslash
+spec:
+  redirectRegex:
+    regex: ^(.*)$
+    replacement: /{{ .Values.env }}/{{ .Values.appname }}/
+    permanent: false
 {{- end }}
