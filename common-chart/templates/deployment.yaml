@@ -24,11 +24,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /{{ .Values.env }}/{{ .Values.appname }}/
+              path: /
               port: http
           readinessProbe:
             httpGet:
-              path: /{{ .Values.env }}/{{ .Values.appname }}/
+              path: /
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
