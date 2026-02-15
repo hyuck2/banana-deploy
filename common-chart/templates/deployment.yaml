@@ -15,7 +15,7 @@ spec:
         {{- include "common-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ include "common-chart.name" . }}
+        - name: {{ .Values.appname }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -24,11 +24,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /{{ .Values.env }}/{{ .Values.appname }}/
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /{{ .Values.env }}/{{ .Values.appname }}/
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

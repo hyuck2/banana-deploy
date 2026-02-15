@@ -5,6 +5,9 @@ image:
   tag: "latest"
   pullPolicy: IfNotPresent
 
+env: prod
+appname: app
+
 service:
   type: ClusterIP
   port: 80
@@ -12,10 +15,9 @@ service:
 
 ingress:
   enabled: true
-  host: app.local
+  host: localhost
   entryPoints:
     - web
-  match: "Host(`app.local`)"
 
 resources:
   limits:
@@ -26,6 +28,3 @@ resources:
     memory: 128Mi
 
 containerPort: 80
-
-nameOverride: ""
-fullnameOverride: ""

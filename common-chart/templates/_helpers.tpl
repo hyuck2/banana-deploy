@@ -1,32 +1,18 @@
 {{/*
-Common name for resources
-*/}}
-{{- define "common-chart.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Fullname with release name
+Fullname: {appname}-{env}
 */}}
 {{- define "common-chart.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
+{{- printf "%s-%s" .Values.appname .Values.env | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
 {{- define "common-chart.labels" -}}
-helm.sh/chart: {{ include "common-chart.name" . }}
-{{ include "common-chart.selectorLabels" . }}
+app.kubernetes.io/name: {{ .Values.appname }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/env: {{ .Values.env }}
+helm.sh/chart: {{ .Chart.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
@@ -34,6 +20,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "common-chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "common-chart.name" . }}
+app.kubernetes.io/name: {{ .Values.appname }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

@@ -1,0 +1,4 @@
+appname: app2
+image:
+  repository: app2
+containerPort: 80

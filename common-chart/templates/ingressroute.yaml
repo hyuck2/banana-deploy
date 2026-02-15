@@ -9,9 +9,20 @@ spec:
   entryPoints:
     {{- toYaml .Values.ingress.entryPoints | nindent 4 }}
   routes:
-    - match: {{ .Values.ingress.match }}
+    - match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/{{ .Values.env }}/{{ .Values.appname }}`)
       kind: Rule
       services:
         - name: {{ include "common-chart.fullname" . }}
           port: {{ .Values.service.port }}
+      middlewares:
+        - name: {{ include "common-chart.fullname" . }}-stripprefix
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "common-chart.fullname" . }}-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /{{ .Values.env }}/{{ .Values.appname }}
 {{- end }}
