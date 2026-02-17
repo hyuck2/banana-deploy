@@ -8,7 +8,12 @@ serviceAccountName: admin-dashboard-backend
 extraEnv:
   - name: DATABASE_URL
     value: "mysql+pymysql://admin:admin@mysql.admin-db.svc.cluster.local:3306/admin_dashboard"
-  - name: BANANA_ORG_PATH
-    value: "/repos/banana-org"
-  - name: BANANA_DEPLOY_PATH
-    value: "/repos/banana-org/banana-deploy"
+  - name: BANANA_DEPLOY_GIT_URL
+    value: "https://github.com/hyuck2/banana-deploy.git"
+  - name: APP_GIT_URLS
+    value: "app1=https://github.com/hyuck2/app1.git,app2=https://github.com/hyuck2/app2.git"
+  - name: GIT_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: git-token
+        key: GIT_TOKEN
