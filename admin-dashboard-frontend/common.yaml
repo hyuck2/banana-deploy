@@ -1,0 +1,4 @@
+appname: admin-dashboard-frontend
+image:
+  repository: admin-dashboard-frontend
+containerPort: 80

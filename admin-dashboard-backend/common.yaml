@@ -1,0 +1,13 @@
+appname: admin-dashboard-backend
+image:
+  repository: admin-dashboard-backend
+containerPort: 8000
+service:
+  targetPort: 8000
+extraEnv:
+  - name: DATABASE_URL
+    value: "mysql+pymysql://admin:admin@mysql.admin-db.svc.cluster.local:3306/admin_dashboard"
+  - name: BANANA_ORG_PATH
+    value: "/repos/banana-org"
+  - name: BANANA_DEPLOY_PATH
+    value: "/repos/banana-org/banana-deploy"
