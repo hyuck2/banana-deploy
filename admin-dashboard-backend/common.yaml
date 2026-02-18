@@ -17,3 +17,13 @@ extraEnv:
       secretKeyRef:
         name: git-token
         key: GIT_TOKEN
+  - name: KUBECONFIG
+    value: "/root/.kube/config"
+extraVolumeMounts:
+  - name: kubeconfig
+    mountPath: /root/.kube
+    readOnly: true
+extraVolumes:
+  - name: kubeconfig
+    secret:
+      secretName: kubeconfig
