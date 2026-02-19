@@ -19,6 +19,12 @@ extraEnv:
         key: GIT_TOKEN
   - name: KUBECONFIG
     value: "/root/.kube/config"
+  - name: FERNET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: fernet-key
+        key: FERNET_KEY
+        optional: true
 extraVolumeMounts:
   - name: kubeconfig
     mountPath: /root/.kube

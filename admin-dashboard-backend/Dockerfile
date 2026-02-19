@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
-# Install kubectl, helm, git
-RUN apt-get update && apt-get install -y curl git bash && \
+# Install kubectl, helm, git, openssh-client, sshpass (for Ansible)
+RUN apt-get update && apt-get install -y curl git bash openssh-client sshpass && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && mv kubectl /usr/local/bin/ && \
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash && \
@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y curl git bash && \
 
 WORKDIR /app
 COPY admin-dashboard/backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir ansible-core
 
 COPY admin-dashboard/backend/ .
 
