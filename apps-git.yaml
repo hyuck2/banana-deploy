@@ -1,16 +1,10 @@
 # apps-git.yaml
 # 각 앱(repo)의 git URL 매핑
-# 버전 목록을 가져올 때 사용
+# 버전 목록(태그)을 가져올 때 사용
 
-app1:
-  git_url: https://github.com/hyuck2/app1.git
-  branch: master
-
-app2:
-  git_url: https://github.com/hyuck2/app2.git
-  branch: master
+app1: https://github.com/hyuck2/app1.git
+app2: https://github.com/hyuck2/app2.git
 
 # 사내 환경 예시:
-# project1:
-#   git_url: https://github.com/your-org/project1.git
-#   branch: master
+# project1: https://github.com/your-org/project1.git
+# project2: https://github.com/your-org/project2.git
